@@ -1,0 +1,203 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeIMSLab}[2026/11/04 IMSLab NYCU presentation theme]
+
+\RequirePackage{iftex}
+\RequireXeTeX
+\RequirePackage{fontspec}
+\RequirePackage{xeCJK}
+\RequirePackage{unicode-math}
+\RequirePackage{tikz}
+\RequirePackage{etoolbox}
+
+\mode<presentation>
+
+% PowerPoint and PDF points are 1/72 inch: use bp, not TeX's 1/72.27-inch pt.
+\geometry{paperwidth=780bp,paperheight=540bp}
+\setbeamersize{text margin left=43.843bp,text margin right=42bp}
+\usefonttheme{serif}
+\setmathfont{latinmodern-math.otf}
+
+\definecolor{IMSLabTeal}{HTML}{1EB8C1}
+\definecolor{IMSLabOrange}{HTML}{EF7920}
+\definecolor{IMSLabGray}{HTML}{595959}
+\definecolor{IMSLabHeader}{HTML}{424242}
+\definecolor{IMSLabPanel}{HTML}{F2F2F2}
+\setbeamercolor{normal text}{fg=black,bg=white}
+\setbeamercolor{structure}{fg=IMSLabTeal}
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{itemize item}{fg=black}
+\setbeamercolor{itemize subitem}{fg=black}
+\setbeamercolor{itemize subsubitem}{fg=black}
+\setbeamercolor{enumerate item}{fg=black}
+\setbeamercolor{block title}{fg=white,bg=IMSLabHeader}
+\setbeamercolor{block body}{fg=black,bg=IMSLabPanel}
+\setbeamerfont{normal text}{family=\rmfamily,size=\fontsize{24bp}{31bp}}
+\setbeamerfont{frametitle}{family=\rmfamily,series=\mdseries,size=\fontsize{36bp}{43bp}}
+\setbeamerfont{title}{family=\rmfamily,series=\mdseries,size=\fontsize{40bp}{46bp}}
+\setbeamerfont{itemize/enumerate body}{size=\fontsize{24bp}{31bp}}
+\setbeamerfont{itemize/enumerate subbody}{size=\fontsize{21bp}{28bp}}
+\setbeamerfont{itemize/enumerate subsubbody}{size=\fontsize{19bp}{25bp}}
+\setbeamerfont{block title}{size=\fontsize{24bp}{31bp}}
+\setbeamerfont{block body}{size=\fontsize{24bp}{31bp}}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize item}{\raisebox{0.15ex}{\fontsize{18bp}{18bp}\selectfont\textbullet}}
+\setbeamertemplate{itemize subitem}{\textbullet}
+\setbeamertemplate{itemize subsubitem}{\textbullet}
+\setbeamertemplate{note page}[plain]
+\setbeameroption{hide notes}
+\AtBeginEnvironment{beamer@frameslide}{\usebeamerfont{normal text}}
+\addtobeamertemplate{itemize/enumerate body begin}{\setlength{\itemsep}{12bp}}{}
+
+\newcommand{\IMSLabAssetPath}{assets}
+\newcommand{\IMSLabLab}[1]{\def\imslab@lab{#1}}
+\IMSLabLab{IMSLab}
+
+\newif\ifimslab@cover
+\newif\ifimslab@outline
+\newif\ifimslab@number
+\newif\ifimslab@footer
+\BeforeBeginEnvironment{frame}{%
+  \imslab@coverfalse
+  \imslab@outlinefalse
+  \imslab@numbertrue
+  \imslab@footerfalse
+}
+\define@key{beamerframe}{imslabcover}[true]{\imslab@covertrue\imslab@numberfalse}
+\define@key{beamerframe}{imslaboutline}[true]{\imslab@outlinetrue\imslab@numberfalse}
+\define@key{beamerframe}{imslabnumbered}[true]{\imslab@numbertrue}
+\define@key{beamerframe}{imslabunnumbered}[true]{\imslab@numberfalse}
+\define@key{beamerframe}{imslabfooter}[true]{\imslab@footertrue}
+
+% Drawing coordinates are bp from the top-left corner. Clip decorative overflow.
+\newenvironment{imslab@canvas}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \begin{scope}[shift={(current page.north west)},x=1bp,y=-1bp]
+      \clip (0,0) rectangle (780,540);
+}{%
+    \end{scope}
+  \end{tikzpicture}%
+}
+\newcommand{\imslab@image}[5]{%
+  \node[anchor=north west,inner sep=0pt,outer sep=0pt] at (#1,#2)
+    {\includegraphics[width=#3bp,height=#4bp]{\IMSLabAssetPath/#5}};
+}
+\newcommand{\imslab@ribbon}[6]{%
+  \begin{scope}[shift={(#1,#2)},xscale=#3,yscale=#4]
+    \fill[#5] #6 -- cycle;
+  \end{scope}
+}
+\newcommand{\imslab@footertext}[1]{%
+  \node[anchor=north east,inner sep=0pt,outer sep=0pt,
+    text=IMSLabGray,font=\fontsize{9bp}{11bp}\selectfont]
+    at (#1,494) {\insertshortauthor\enspace\textperiodcentered\enspace\insertshortinstitute};
+}
+\newcommand{\imslab@pagenumber}[1]{%
+  \ifimslab@number
+    \node[anchor=north east,inner sep=0pt,outer sep=0pt,
+      text=#1,font=\fontsize{14bp}{17bp}\selectfont]
+      at (751.65,505.6) {\insertpagenumber};
+  \fi
+}
+
+\setbeamertemplate{background canvas}{%
+  \begin{imslab@canvas}
+    \fill[white] (0,0) rectangle (780,540);
+    \ifimslab@cover
+      \fill[IMSLabPanel] (0,143.25) rectangle (780,404.129);
+      \imslab@ribbon{497.25}{143.25}{282.75}{260.879}{IMSLabGray}{%
+        (0,0)--(1,0)--(1,1)--(0.059925,1)--(0.210487,0.632407)}
+      \imslab@ribbon{467.519}{143.25}{106.979}{260.879}{IMSLabOrange}{%
+        (0,0)--(0.291140,0)--(1,0.632407)--(0.493672,1)--(0.205063,1)--(0.711391,0.632407)}
+      \imslab@ribbon{453.833}{143.25}{97.771}{260.879}{IMSLabTeal}{%
+        (0,0)--(0.221606,0)--(1,0.632407)--(0.445983,1)--(0.221607,1)--(0.778394,0.632407)}
+      \imslab@image{497.25}{143.25}{282.75}{260.879}{cover-photo.png}
+      \imslab@image{0}{412.357}{780}{142.476}{cover-waves.png}
+      \imslab@image{600.116}{2.26}{179.884}{114.047}{imslab-logo.jpeg}
+      \draw[IMSLabTeal,line width=3bp] (30.857,330.536)--(479.571,330.536);
+      \imslab@footertext{676.8}
+    \else\ifimslab@outline
+      \imslab@ribbon{615.604}{0}{164.396}{540}{IMSLabHeader}{%
+        (0,0)--(1,0)--(1,1)--(0.131796,1)--(0.462933,0.632407)}
+      \imslab@ribbon{590.958}{0}{106.979}{540}{IMSLabOrange}{%
+        (0,0)--(0.291140,0)--(1,0.632407)--(0.493672,1)--(0.205063,1)--(0.711391,0.632407)}
+      \imslab@ribbon{586.896}{0}{93.437}{540}{IMSLabTeal}{%
+        (0,0)--(0.185507,0)--(1,0.632407)--(0.420289,1)--(0.234783,1)--(0.814493,0.632407)}
+      \fill[IMSLabOrange] (57.214,75.724) rectangle (540.702,82.286);
+      \imslab@footertext{533.2}
+      \imslab@pagenumber{white}
+    \else
+      \fill[IMSLabHeader] (0,0) rectangle (780,108);
+      \fill[IMSLabOrange] (0,108) rectangle (780,114.471);
+      \fill[IMSLabTeal] (0,113.623) rectangle (780,120.094);
+      \imslab@image{0}{450.92}{780}{89.08}{footer-waves.png}
+      \imslab@image{0}{467.357}{111.163}{73.935}{footer-logo.png}
+    \fi\fi
+  \end{imslab@canvas}%
+}
+
+% The headline reserves the header and content gap; title text is an overlay.
+\setbeamertemplate{headline}{\vbox to 132bp{\vfil}}
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip\hbox{%
+  \begin{imslab@canvas}
+    \ifimslab@outline
+      \node[anchor=south west,inner sep=0pt,outer sep=0pt,
+        text width=539.827bp,align=left,text=IMSLabGray,font=\usebeamerfont{frametitle}]
+        at (83.05,72.124) {\insertframetitle\strut};
+    \else
+      \node[anchor=west,inner sep=0pt,outer sep=0pt,
+        text width=694.261bp,align=left,text=white,font=\usebeamerfont{frametitle}]
+        at (43.843,56.824) {\insertframetitle\strut};
+    \fi
+  \end{imslab@canvas}%
+  }%
+}
+\setbeamertemplate{footline}{%
+  \begin{imslab@canvas}
+    \ifimslab@footer\imslab@footertext{676.8}\fi
+    \imslab@pagenumber{IMSLabHeader}
+  \end{imslab@canvas}%
+  \vbox to 89.08bp{\vfil}%
+}
+
+\setbeamertemplate{title page}{%
+  \begin{imslab@canvas}
+    \node[anchor=south west,inner sep=0pt,outer sep=0pt,
+      text width=408.576bp,align=left,font=\usebeamerfont{title}]
+      at (38.057,325.833) {\raggedright\inserttitle\strut};
+    \node[anchor=north west,inner sep=0pt,outer sep=0pt,
+      text width=408.576bp,align=left,text=IMSLabGray,font=\fontsize{20bp}{24bp}\selectfont]
+      at (38.057,342.363) {\insertinstitute};
+    \node[anchor=north west,inner sep=0pt,outer sep=0pt,
+      text=IMSLabGray,font=\fontsize{20bp}{24bp}\selectfont\bfseries]
+      at (38.057,381.963) {\imslab@lab};
+    \node[anchor=north west,inner sep=0pt,outer sep=0pt,
+      text width=129.6bp,align=left,text=IMSLabGray,font=\fontsize{16.65bp}{21bp}\selectfont]
+      at (643.2,420.735) {\insertauthor};
+    \node[anchor=north west,inner sep=0pt,outer sep=0pt,
+      text=IMSLabGray,font=\fontsize{16.65bp}{21bp}\selectfont]
+      at (643.2,457.385) {\insertdate};
+  \end{imslab@canvas}%
+}
+
+% Use inside a plain,imslaboutline frame. Native item syntax is preserved.
+\newcommand{\IMSLabOutline}[2][Outline]{%
+  \frametitle{#1}%
+  \begin{imslab@canvas}
+    \node[anchor=north west,inner sep=0pt,outer sep=0pt,
+      text width=480bp,align=left,font=\usebeamerfont{normal text}]
+      at (84.417,123) {%
+        \begin{minipage}{480bp}
+          \raggedright
+          \setlength{\leftmargini}{18bp}%
+          \begin{itemize}
+            \setlength{\itemsep}{12bp}%
+            \setlength{\parsep}{0pt}%
+            #2
+          \end{itemize}
+        \end{minipage}%
+      };
+  \end{imslab@canvas}%
+}
+
+\mode<all>

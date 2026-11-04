@@ -1,0 +1,53 @@
+\documentclass[professionalfonts,t]{beamer}
+\usetheme{IMSLab}
+
+% Select installed fonts. Edit these two choices for another operating system.
+\IfFontExistsTF{Times New Roman}
+  {\setmainfont{Times New Roman}}
+  {\setmainfont{texgyretermes-regular.otf}[
+    BoldFont=texgyretermes-bold.otf,
+    ItalicFont=texgyretermes-italic.otf,
+    BoldItalicFont=texgyretermes-bolditalic.otf]}
+\IfFontExistsTF{PingFang TC}
+  {\setCJKmainfont{PingFang TC}}
+  {\setCJKmainfont{Noto Serif CJK TC}}
+
+\title{Title}
+\author{Haowen Zheng}
+\institute{National Yang Ming Chiao Tung University}
+\date{20xx/xx/xx}
+\IMSLabLab{IMSLab}
+
+\begin{document}
+
+\begin{frame}[plain,imslabcover]
+  \titlepage
+  \note{Talk length approximately 15 min; updated with academic outline.}
+\end{frame}
+
+\begin{frame}[plain,imslaboutline]
+  \IMSLabOutline{
+    \item Research Background
+    \item Motivation
+    \item Related Works
+    \item Scenario
+    \item Experiment
+    \item Results
+    \item Future Work
+  }
+  \note{Academic structure for a 15-min talk.}
+\end{frame}
+
+\begin{frame}{Introduction}
+  \note{
+    It was first used in the field of cryptography to hack a device by leaking
+    undirected information when the device performs an operation.
+    It leverages information leaked while the device running the model, such as
+    cache, power traces, and even electromagnetic signals.
+  }
+\end{frame}
+
+\begin{frame}[imslabunnumbered]{Background}
+\end{frame}
+
+\end{document}
